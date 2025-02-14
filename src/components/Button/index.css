@@ -1,0 +1,26 @@
+.login-btn-wrapper {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.login-btn {
+    width: 50%;
+    background: #e4185f;
+    border-radius: 6px;
+    padding: 8px 4px;
+    margin: 28px 4px;
+}
+
+.login-btn:hover {
+    background: #e4185f8a;
+    transition: all 700ms;
+
+
+}
+
+.login-btn:not(:hover) {
+    transition: all 1s;
+}
