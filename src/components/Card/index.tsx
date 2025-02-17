@@ -3,26 +3,18 @@ import { Field } from "../ui/field"
 import { CustomButton } from "../Button"
 import { useState } from 'react';
 import { login } from "../../services/login";
-import { IAccount } from "@/interfaces/IAccount";
-import { Header } from "../Header";
-import { redirect } from "react-router-dom";
 
 export const Card = () => {
     const [mail, setMail] = useState<string>();
     const [pass, setPass] = useState<string>();
     const [mailValidate, setmailValidate] = useState<boolean>(false);
     const [passValidate, setpassValidate] = useState<boolean>(false);
-
-    const [data, setData] = useState<null | IAccount>()
-
     function setInputMail(value: string) {
         setMail(value)
     }
     function getPassMail(value: string) {
         setPass(value)
     }
-
-
 
     async function validateFieldsNLogin() {
         if (!mail && !pass) {
