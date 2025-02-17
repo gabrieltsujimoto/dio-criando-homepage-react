@@ -1,9 +1,11 @@
-import { Center, Input, Stack } from "@chakra-ui/react"
+import { Center, Input } from "@chakra-ui/react"
 import { Field } from "../ui/field"
-import { Layout } from "../Layout"
 import { CustomButton } from "../Button"
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { login } from "../../services/login";
+import { IAccount } from "@/interfaces/IAccount";
+import { Header } from "../Header";
+import { redirect } from "react-router-dom";
 
 export const Card = () => {
     const [mail, setMail] = useState<string>();
@@ -11,14 +13,18 @@ export const Card = () => {
     const [mailValidate, setmailValidate] = useState<boolean>(false);
     const [passValidate, setpassValidate] = useState<boolean>(false);
 
-    function getInputMail(value: string) {
+    const [data, setData] = useState<null | IAccount>()
+
+    function setInputMail(value: string) {
         setMail(value)
     }
     function getPassMail(value: string) {
         setPass(value)
     }
 
-    function validateFieldsNLogin() {
+
+
+    async function validateFieldsNLogin() {
         if (!mail && !pass) {
             window.alert("Insira seu e-mail e senha")
             setmailValidate(true)
@@ -42,27 +48,27 @@ export const Card = () => {
         }
         setmailValidate(false)
         setpassValidate(false)
-        login(mail!)
+        await login(mail!)
     }
+
     return (
         <div>
-            <Layout>
-                <Center width={'100%'} display={"inline-block"}>
-                    <Center>
-                        <Field required margin={4} invalid={mailValidate} errorText="E-mail inválido" label='E-mail' width={'50%'} display={'flex'} justifyContent={'center'} alignItems={'flex-start'}>
-                            <Input padding={2} width={"100%"} variant={'flushed'} type="mail" onChange={(e) => getInputMail(e.target.value)} placeholder="Digite seu e-mail aqui" id="mailInput" />
-                        </Field>
-                    </Center>
-                    <Center>
-                        <Field required invalid={passValidate} errorText="Senha inválida" label='Senha' width={'50%'} display={'flex'} justifyContent={'center'} alignItems={'flex-start'} margin={4}>
-                            <Input padding={2} width={"100%"} variant={'flushed'} type="password" onChange={(e) => getPassMail(e.target.value)} placeholder="Digite sua senha aqui" id="passInput" />
-                        </Field>
-                    </Center>
-                    <Center>
-                        <CustomButton email={mail!} senha={pass!} onclick={() => validateFieldsNLogin()} />
-                    </Center>
+            <Center width={'100%'} display={"flex"} flexDirection={'column'}>
+                <h1>Bem-vindo(a)!</h1>
+                <Center>
+                    <Field required margin={4} invalid={mailValidate} errorText="E-mail inválido" label='E-mail' width={'100%'} display={'flex'} justifyContent={'center'} alignItems={'flex-start'}>
+                        <Input value={mail} padding={2} width={"100%"} variant={'flushed'} type="mail" onChange={(e) => setInputMail(e.target.value)} placeholder="Digite seu e-mail aqui" />
+                    </Field>
                 </Center>
-            </Layout>
+                <Center>
+                    <Field required invalid={passValidate} errorText="Senha inválida" label='Senha' width={'100%'} display={'flex'} justifyContent={'center'} alignItems={'flex-start'} margin={4}>
+                        <Input value={pass} padding={2} width={"100%"} variant={'flushed'} type="password" onChange={(e) => getPassMail(e.target.value)} placeholder="Digite sua senha aqui" id="passInput" />
+                    </Field>
+                </Center>
+                <Center>
+                    <CustomButton email={mail!} senha={pass!} onclick={() => validateFieldsNLogin()} />
+                </Center>
+            </Center>
         </div>
     )
 }

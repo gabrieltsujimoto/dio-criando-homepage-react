@@ -7,7 +7,7 @@
 
 
 .login-btn {
-    width: 50%;
+    width: 8rem;
     background: #e4185f;
     border-radius: 6px;
     padding: 8px 4px;
@@ -17,8 +17,6 @@
 .login-btn:hover {
     background: #e4185f8a;
     transition: all 700ms;
-
-
 }
 
 .login-btn:not(:hover) {
