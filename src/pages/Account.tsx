@@ -19,12 +19,10 @@ const Account = () => {
         }
         getData()
     }, [])
-    console.log(userData)
-    console.log('retorno da página conta: ', context)
-
     if (userData && id !== userData.id) {
         navigate('/')
     }
+    console.log(context.isLoggedIn)
 
     return (
         <Center color={'black'}>

@@ -1,14 +1,18 @@
 import { Center, Input } from "@chakra-ui/react"
 import { Field } from "../ui/field"
 import { CustomButton } from "../Button"
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { login } from "../../services/login";
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
-export const Card = () => {
+export const Card = ({ children }: any) => {
     const [mail, setMail] = useState<string>();
     const [pass, setPass] = useState<string>();
     const [mailValidate, setmailValidate] = useState<boolean>(false);
     const [passValidate, setpassValidate] = useState<boolean>(false);
+    const navigate = useNavigate();
+    const { id } = useContext(AppContext);
     function setInputMail(value: string) {
         setMail(value)
     }
@@ -40,11 +44,15 @@ export const Card = () => {
         }
         setmailValidate(false)
         setpassValidate(false)
-        await login(mail!)
+
+        if (await login(mail!)) {
+            navigate(`account/${id}`)
+        }
     }
 
     return (
         <div>
+            {children}
             <Center width={'100%'} display={"flex"} flexDirection={'column'}>
                 <h1>Bem-vindo(a)!</h1>
                 <Center>
