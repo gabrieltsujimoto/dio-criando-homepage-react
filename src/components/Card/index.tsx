@@ -1,8 +1,8 @@
 import { Center, Input } from "@chakra-ui/react"
 import { Field } from "../ui/field"
 import { CustomButton } from "../Button"
-import { useContext, useState } from 'react';
-import { login } from "../../services/login";
+import { useContext, useEffect, useState } from 'react';
+import { UseLogin } from "../../services/UseLogin";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 
@@ -12,7 +12,7 @@ export const Card = ({ children }: any) => {
     const [mailValidate, setmailValidate] = useState<boolean>(false);
     const [passValidate, setpassValidate] = useState<boolean>(false);
     const navigate = useNavigate();
-    const { id } = useContext(AppContext);
+    const { id, setIsLoggedIn } = useContext(AppContext);
     function setInputMail(value: string) {
         setMail(value)
     }
@@ -20,7 +20,14 @@ export const Card = ({ children }: any) => {
         setPass(value)
     }
 
-    async function validateFieldsNLogin() {
+    useEffect(() => {
+        setmailValidate(false)
+        setpassValidate(false)
+    }, [])
+
+    const validateFieldsNLogin = async (mailParam: string) => {
+        const loggedIn
+            = await UseLogin(mailParam)
         if (!mail && !pass) {
             window.alert("Insira seu e-mail e senha")
             setmailValidate(true)
@@ -42,12 +49,9 @@ export const Card = ({ children }: any) => {
                 return
             }
         }
-        setmailValidate(false)
-        setpassValidate(false)
-
-        if (await login(mail!)) {
-            navigate(`account/${id}`)
-        }
+        loggedIn ?? alert('Email inválido')
+        setIsLoggedIn(true)
+        navigate(`/account/1`)
     }
 
     return (
@@ -66,7 +70,9 @@ export const Card = ({ children }: any) => {
                     </Field>
                 </Center>
                 <Center>
-                    <CustomButton email={mail!} senha={pass!} onclick={() => validateFieldsNLogin()} />
+                    <CustomButton email={mail!} senha={pass!} onclick={() => validateFieldsNLogin(mail!)} onSuccess={() => {
+                        navigate('/account/1')
+                    }} />
                 </Center>
             </Center>
         </div>

@@ -4,7 +4,8 @@ import './index.css'
 interface ICustomButton {
     email: string | ChangeEvent<HTMLInputElement>,
     senha: string,
-    onclick: () => void
+    onclick: () => void,
+    onSuccess: () => void
 }
 
 export const CustomButton = ({ email, senha, onclick }: ICustomButton) => {

@@ -1,16 +1,11 @@
-import { login } from "./login";
-import { useContext } from "react";
-
-const mockSetIsLoggedIn = jest.fn()
-jest.mock('react', () => ({
-    ...jest.requireActual('react'),
-    useContext: () => ({
-        setIsLoggedIn: mockSetIsLoggedIn
-    })
-}))
-
-
-
+import { UseLogin } from "./UseLogin";
+// jest.mock('react-router', () => {
+//     const actual = jest.requireActual('react-router-dom');
+//     return {
+//         ...actual,
+//         useNavigate: jest.fn(() => mockNavigate)
+//     }
+// })
 
 describe('login', () => {
     const mockAlert = jest.fn(); //Por estar fora do escopo de teste que queremos, precisamos fazer um 'mock' da chamada externa que irá acontecer
@@ -18,14 +13,15 @@ describe('login', () => {
     window.alert = mockAlert;
 
     it('Deve retornar verdadeiro caso e-mail seja válido', async () => {
-        await login(mockMail)
-        expect(mockSetIsLoggedIn).toHaveBeenCalledWith(true)
-        // expect(mockNavigate).toHaveBeenCalledWith('/1')
+        const res = await UseLogin(mockMail)
+        expect(res).toBeTruthy()
     })
 
     it('Deve exibir um erro caso o e-mail seja invalido.', async () => {
-        await login('email@invalido.erro')
-        expect(mockSetIsLoggedIn).not.toHaveBeenCalled()
-        expect(mockAlert).toHaveBeenCalledWith('Email inválido!')
+        const res = await UseLogin('email@invalido.erro')
+        expect(res).toBeFalsy()
+
+        // expect(mockSetIsLoggedIn).not.toHaveBeenCalled()
+        // expect(mockAlert).toHaveBeenCalledWith('Email inválido!')
     })
 })

@@ -4,7 +4,7 @@ interface IAppContext {
     user: string,
     id: string,
     isLoggedIn: boolean,
-    setIsLoggedIn: (isLoggedIn: boolean) => React.Dispatch<React.SetStateAction<boolean>> | void
+    setIsLoggedIn: (isLoggedIn: boolean) => void
 }
 
 export const AppContext = createContext({} as IAppContext)
