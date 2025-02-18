@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 
 export const Card = ({ children }: any) => {
-    const [mail, setMail] = useState<string>();
-    const [pass, setPass] = useState<string>();
+    const [mail, setMail] = useState<string>('');
+    const [pass, setPass] = useState<string>('');
     const [mailValidate, setmailValidate] = useState<boolean>(false);
     const [passValidate, setpassValidate] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -25,9 +25,8 @@ export const Card = ({ children }: any) => {
         setpassValidate(false)
     }, [])
 
-    const validateFieldsNLogin = async (mailParam: string) => {
-        const loggedIn
-            = await UseLogin(mailParam)
+    const validateFieldsNLogin = async (mailParam: string, passParam: string): Promise<void> => {
+        const loggedIn = await UseLogin(mailParam, passParam)
         if (!mail && !pass) {
             window.alert("Insira seu e-mail e senha")
             setmailValidate(true)
@@ -49,9 +48,16 @@ export const Card = ({ children }: any) => {
                 return
             }
         }
-        loggedIn ?? alert('Email inválido')
-        setIsLoggedIn(true)
-        navigate(`/account/1`)
+
+        if (!loggedIn) {
+            setpassValidate(true)
+            setmailValidate(true)
+            alert('E-mail ou senha inválidos!')
+        } else {
+            setIsLoggedIn(true)
+            navigate(`/account/${id}`)
+        }
+
     }
 
     return (
@@ -70,9 +76,7 @@ export const Card = ({ children }: any) => {
                     </Field>
                 </Center>
                 <Center>
-                    <CustomButton email={mail!} senha={pass!} onclick={() => validateFieldsNLogin(mail!)} onSuccess={() => {
-                        navigate('/account/1')
-                    }} />
+                    <CustomButton email={mail!} senha={pass!} onclick={() => validateFieldsNLogin(mail!, pass!)} />
                 </Center>
             </Center>
         </div>
