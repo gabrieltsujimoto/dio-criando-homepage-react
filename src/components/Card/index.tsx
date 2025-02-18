@@ -12,7 +12,7 @@ export const Card = ({ children }: any) => {
     const [mailValidate, setmailValidate] = useState<boolean>(false);
     const [passValidate, setpassValidate] = useState<boolean>(false);
     const navigate = useNavigate();
-    const { id, setIsLoggedIn } = useContext(AppContext);
+    const { id, setIsLoggedIn, isLoggedIn } = useContext(AppContext);
     function setInputMail(value: string) {
         setMail(value)
     }
@@ -53,11 +53,10 @@ export const Card = ({ children }: any) => {
             setpassValidate(true)
             setmailValidate(true)
             alert('E-mail ou senha inválidos!')
-        } else {
-            setIsLoggedIn(true)
-            navigate(`/account/${id}`)
-        }
-
+            return
+        } 
+        setIsLoggedIn(true)
+        navigate(`/account/${id}`)
     }
 
     return (

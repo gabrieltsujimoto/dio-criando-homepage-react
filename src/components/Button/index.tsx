@@ -7,7 +7,7 @@ interface ICustomButton {
     onclick: () => void,
 }
 
-export const CustomButton = ({ email, senha, onclick }: ICustomButton) => {
+export const CustomButton = ({ onclick }: ICustomButton) => {
     return (
         <div className='login-btn-wrapper'>
             <button onClick={onclick} className="login-btn">

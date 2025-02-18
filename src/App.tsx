@@ -1,30 +1,24 @@
 
-import { Route, BrowserRouter, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import Account from './pages/Account';
+import { BrowserRouter } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { Provider } from './components/ui/provider';
 import './index.css'
-import AccountInfo from './pages/AccountInfo';
 import { AppContextProvider } from './components/context/AppContext';
+import MainRoutes from './routes/routes';
+import { getAllLocalStorage } from './services/storage';
 
 
 function App() {
-
+  const localStorage = getAllLocalStorage();
+  console.log(localStorage)
   return (
     <BrowserRouter>
       <AppContextProvider>
         <Provider>
           <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path='/account/:id' element={<Account />} />
-              <Route path='/accountInfo/' element={<AccountInfo />} />
-
-            </Routes>
+           <MainRoutes/>
           </Layout>
         </Provider>
-
       </AppContextProvider>
     </BrowserRouter>
   )

@@ -1,11 +1,11 @@
 import { UseLogin } from "./UseLogin";
-// jest.mock('react-router', () => {
-//     const actual = jest.requireActual('react-router-dom');
-//     return {
-//         ...actual,
-//         useNavigate: jest.fn(() => mockNavigate)
-//     }
-// })
+/*jest.mock('react-router', () => {
+     const actual = jest.requireActual('react-router-dom');
+     return {
+         ...actual,
+         useNavigate: jest.fn(() => mockNavigate)
+     }
+ }) */
 
 describe('login', () => {
     const mockAlert = jest.fn(); //Por estar fora do escopo de teste que queremos, precisamos fazer um 'mock' da chamada externa que irá acontecer
@@ -22,7 +22,7 @@ describe('login', () => {
         const res = await UseLogin('email@invalido.erro', '12345')
         expect(res).toBeFalsy()
 
-        // expect(mockSetIsLoggedIn).not.toHaveBeenCalled()
-        // expect(mockAlert).toHaveBeenCalledWith('Email inválido!')
+        /*  expect(mockSetIsLoggedIn).not.toHaveBeenCalled()
+        expect(mockAlert).toHaveBeenCalledWith('Email inválido!') */
     })
 })
