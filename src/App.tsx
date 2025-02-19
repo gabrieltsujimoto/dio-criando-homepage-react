@@ -5,18 +5,18 @@ import { Provider } from './components/ui/provider';
 import './index.css'
 import { AppContextProvider } from './components/context/AppContext';
 import MainRoutes from './routes/routes';
-import { getAllLocalStorage } from './services/storage';
+import { createLocalStorage, getAllLocalStorage } from './services/storage';
 
 
 function App() {
-  const localStorage = getAllLocalStorage();
-  console.log(localStorage)
+  createLocalStorage();
+  console.log(`Local Storage: ${getAllLocalStorage()}`)
   return (
     <BrowserRouter>
       <AppContextProvider>
         <Provider>
           <Layout>
-           <MainRoutes/>
+            <MainRoutes />
           </Layout>
         </Provider>
       </AppContextProvider>
