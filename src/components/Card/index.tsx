@@ -1,9 +1,10 @@
-import { Center, Input } from "@chakra-ui/react"
+import { Button, Center, Input } from "@chakra-ui/react"
 import { Field } from "../ui/field"
 import { CustomButton } from "../Button"
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import { getApiToLocalStorage } from "../../services/UseLogin";
 
 export const Card = ({ children }: any) => {
     const [mail, setMail] = useState<string>('');
@@ -11,7 +12,7 @@ export const Card = ({ children }: any) => {
     const [mailValidate, setmailValidate] = useState<boolean>(false);
     const [passValidate, setpassValidate] = useState<boolean>(false);
     const navigate = useNavigate();
-    const { currentId, actualBalance, username, cLoginFn, setIsLoggedIn } = useContext(AppContext)
+    const { cLoginFn, setIsLoggedIn } = useContext(AppContext)
     function setInputMail(value: string) {
         setMail(value)
     }
@@ -45,23 +46,37 @@ export const Card = ({ children }: any) => {
                 return
             }
         }
-        const loggedIn = await cLoginFn(mailParam, passParam)
-        if (!loggedIn) {
-            setpassValidate(true)
-            setmailValidate(true)
-            alert('E-mail ou senha inválidos!')
-            return
-        } else {
-            setIsLoggedIn(true)
-            console.log("id atual: ", currentId)
-            navigate(`/account/${currentId}`)
+        makelogin(mailParam, passParam);
+    }
+
+    const makelogin = async (mail: string, pass: string): Promise<Boolean> => {
+        const { id } = await getApiToLocalStorage();
+        const loggedIn = await cLoginFn(mail, pass)
+        try {
+
+            if (!loggedIn) {
+                setpassValidate(true)
+                setmailValidate(true)
+                alert('E-mail ou senha inválidos!')
+
+                return false
+            } else {
+                setIsLoggedIn(true)
+                navigate(`/account/${id}`)
+
+                return true
+            }
+        }
+
+        catch (error) {
+            console.log("erro no makeLogin em Card.tsx : ", error)
+            return false
         }
 
     }
 
     return (
         <div>
-            {children}
             <Center width={'100%'} display={"flex"} flexDirection={'column'}>
                 <h1>Bem-vindo(a)!</h1>
                 <Center>
@@ -78,6 +93,7 @@ export const Card = ({ children }: any) => {
                     <CustomButton email={mail!} senha={pass!} onclick={() => validateFieldsNLogin(mail!, pass!)} />
                 </Center>
             </Center>
+            {children}
         </div>
     )
 }

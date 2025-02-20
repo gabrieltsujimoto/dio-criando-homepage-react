@@ -13,31 +13,44 @@ export const UseAppContext = () => {
 
 export const AppContextProvider = ({ children }: any) => {
     const [username, setUsername] = useState<string>('')
+    const [usermail, setUserMail] = useState<string>('')
     const [currentId, setCurrentId] = useState<string>('')
-    const [actualBalance, setActualBalance] = useState<string | number>('x')
+    const [actualBalance, setActualBalance] = useState<string>('x')
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
     const storage = getAllLocalStorage();
 
     async function cLoginFn(inputName: string, inputEmail: string): Promise<Boolean> {
-        const res = await UseLogin(inputName, inputEmail, isLoggedIn);
-        const { name, id, balance, email } = await getApiToLocalStorage();
+        const res = UseLogin(inputName, inputEmail, isLoggedIn);
 
-        if (res) {
-            setUsername(name)
-            setCurrentId(id)
-            setActualBalance(balance)
+        const context = await getApiToLocalStorage();
+        console.log(`
+            Valores do getApiTolocalstorage() 
+            ${context.name}, ${context.id}, ${context.balance}, ${context.mail}
+        `)
+
+        if (await res) {
+            setUsername(context.name)
+            setUserMail(context.mail)
+            setCurrentId(context.id)
+            setActualBalance(context.balance)
             setIsLoggedIn(true)
-
-            const localStorageModel: IDioBank = {
-                loginState: true,
-                email: email,
-                nome: name,
-                balance: balance
-            }
-            changeLocalStorage(localStorageModel)
         }
 
+        const localStorageModel: IDioBank = {
+            id: context.id,
+            loginState: true,
+            email: context.mail,
+            nome: context.name,
+            balance: context.balance
+        }
+        changeLocalStorage(localStorageModel)
+        console.log(`Toma o localStorage que foi definido no contexto: ${getAllLocalStorage()}`)
+
         return res
+    }
+
+    function cLogoutFn(state: boolean): void {
+        setIsLoggedIn(state)
     }
 
     useEffect(() => {
@@ -59,7 +72,10 @@ export const AppContextProvider = ({ children }: any) => {
                     setActualBalance,
                     setCurrentId,
                     currentId,
-                    cLoginFn
+                    cLoginFn,
+                    cLogoutFn,
+                    usermail,
+                    setUserMail
                 }}>
             {children}
         </AppContext.Provider>

@@ -1,6 +1,4 @@
-import { api } from "../api/api"
-import { changeLocalStorage, getAllLocalStorage } from "./storage";
-import { AppContext, UseAppContext } from "../components/context/AppContext";
+import { api } from "../api/api";
 import { IAccount } from "@/interfaces/IAccount";
 
 export const UseLogin = async (mail: string, pass: string, isLoggedIn: boolean): Promise<Boolean> => {
@@ -21,6 +19,6 @@ export const UseLogin = async (mail: string, pass: string, isLoggedIn: boolean):
 
 export const getApiToLocalStorage = async (): Promise<IAccount> => {
     const response: any = await api;
-    console.log(response)
+    console.log(`Resposta no UseLogin: ${JSON.stringify(response)}`)
     return response
 }

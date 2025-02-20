@@ -6,7 +6,6 @@ export const Footer = () => {
             display={'flex'}
             width={"100%"}
             height={'100%'}
-            border={'1px solid red'}
             justifyContent={"center"}
             padding={2}
             margin={0}
