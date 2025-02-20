@@ -5,12 +5,13 @@ import Home from "../pages/Home";
 import { Routes, Route } from "react-router-dom";
 import { AppContext } from "../components/context/AppContext";
 
-const MainRoutes = () =>{
-    const {isLoggedIn} = useContext(AppContext)
-    return(
+const MainRoutes = () => {
+
+    const { isLoggedIn } = useContext(AppContext)
+    return (
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path={'/account/:id'} element={isLoggedIn ? <Account /> : <Home/>}/>
+            <Route path={'/account/:id'} element={isLoggedIn ? <Account /> : <Home />} />
             <Route path='/accountInfo/' element={<AccountInfo />} />
 
         </Routes>

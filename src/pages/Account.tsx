@@ -31,7 +31,7 @@ const Account = () => {
                         </Center> :
                         <>
                             <CardInfo mainContent={`Bem vindo ${userData?.name}`} content={currenteDate.toLocaleString('pt-br')} />
-                            <CardInfo mainContent='Informaçes da conta' content={`Saldo da conta: R$ ${userData?.balance.toFixed(2)}`}
+                            <CardInfo mainContent='Informaçes da conta' content={`Saldo da conta: R$ ${userData?.balance}`}
                             />
                         </>
                 }

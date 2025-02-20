@@ -2,7 +2,6 @@ import { Center, Input } from "@chakra-ui/react"
 import { Field } from "../ui/field"
 import { CustomButton } from "../Button"
 import { useContext, useEffect, useState } from 'react';
-import { UseLogin } from "../../services/UseLogin";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 
@@ -12,21 +11,19 @@ export const Card = ({ children }: any) => {
     const [mailValidate, setmailValidate] = useState<boolean>(false);
     const [passValidate, setpassValidate] = useState<boolean>(false);
     const navigate = useNavigate();
-    const { id, setIsLoggedIn, isLoggedIn } = useContext(AppContext);
+    const { currentId, actualBalance, username, cLoginFn, setIsLoggedIn } = useContext(AppContext)
     function setInputMail(value: string) {
         setMail(value)
     }
     function getPassMail(value: string) {
         setPass(value)
     }
-
     useEffect(() => {
         setmailValidate(false)
         setpassValidate(false)
-    }, [])
 
+    }, [])
     const validateFieldsNLogin = async (mailParam: string, passParam: string): Promise<void> => {
-        const loggedIn = await UseLogin(mailParam, passParam)
         if (!mail && !pass) {
             window.alert("Insira seu e-mail e senha")
             setmailValidate(true)
@@ -48,15 +45,18 @@ export const Card = ({ children }: any) => {
                 return
             }
         }
-
+        const loggedIn = await cLoginFn(mailParam, passParam)
         if (!loggedIn) {
             setpassValidate(true)
             setmailValidate(true)
             alert('E-mail ou senha inválidos!')
             return
-        } 
-        setIsLoggedIn(true)
-        navigate(`/account/${id}`)
+        } else {
+            setIsLoggedIn(true)
+            console.log("id atual: ", currentId)
+            navigate(`/account/${currentId}`)
+        }
+
     }
 
     return (

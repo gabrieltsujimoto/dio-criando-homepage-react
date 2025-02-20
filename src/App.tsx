@@ -9,8 +9,9 @@ import { createLocalStorage, getAllLocalStorage } from './services/storage';
 
 
 function App() {
-  createLocalStorage();
-  console.log(`Local Storage: ${getAllLocalStorage()}`)
+
+  !getAllLocalStorage() && createLocalStorage()
+
   return (
     <BrowserRouter>
       <AppContextProvider>

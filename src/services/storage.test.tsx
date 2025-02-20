@@ -1,7 +1,10 @@
-import { getAllLocalStorage, createLocalStorage } from "./storage";
+import { getAllLocalStorage, createLocalStorage, changeLocalStorage } from "./storage";
 
 const dioBank = {
-    login: false
+    loginState: false,
+    email: "",
+    nome: "",
+    balance: ""
 }
 
 describe('Local Storage test', () => {
@@ -9,16 +12,21 @@ describe('Local Storage test', () => {
     // * getItem vem do protótipo de Storage, parametro passado para busca. 
 
     const mockStorageGetItemFn = jest.spyOn(Storage.prototype, 'getItem');
+    const mockStorageSetItemFn = jest.spyOn(Storage.prototype, 'setItem');
 
 
     it('Deve retornar TODO objeto localStorage', () => {
         getAllLocalStorage();
-        expect(mockStorageGetItemFn).toHaveBeenCalledWith('diobank');
+        expect(mockStorageGetItemFn).toHaveBeenCalledWith('userLocalStorage');
     })
 
     it('Deve criar o objeto do localStorage', () => {
-        const mockStorageSetItemFn = jest.spyOn(Storage.prototype, 'setItem');
         createLocalStorage();
-        expect(mockStorageSetItemFn).toHaveBeenCalledWith('diobank', JSON.stringify(dioBank))
+        expect(mockStorageSetItemFn).toHaveBeenCalledWith('userLocalStorage', JSON.stringify(dioBank));
+    })
+
+    it('Deve alterar o valor do objeto no localStorage', () => {
+        changeLocalStorage(dioBank);
+        expect(mockStorageSetItemFn).toHaveBeenCalledWith('userLocalStorage', JSON.stringify(dioBank))
     })
 })

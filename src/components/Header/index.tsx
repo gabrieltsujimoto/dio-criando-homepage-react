@@ -1,15 +1,16 @@
 import { Button, Flex, Spacer } from '@chakra-ui/react'
 import './index.css'
 import { useNavigate } from 'react-router-dom'
-import { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
+import { changeLocalStorage, getAllLocalStorage } from '../../services/storage';
+import { useContext } from 'react';
 
 export const Header = () => {
     const navigate = useNavigate();
-    const {isLoggedIn, setIsLoggedIn} = useContext(AppContext)
-
-    const sair = () =>{
-        setIsLoggedIn(!isLoggedIn)
+    const { isLoggedIn, setIsLoggedIn } = useContext(AppContext)
+    const storage = getAllLocalStorage();
+    const sair = () => {
+        setIsLoggedIn(false)
         navigate(`/`)
     }
 
@@ -20,11 +21,11 @@ export const Header = () => {
                 <p className='header-subtitle'>Faça seu login agora!</p>
             </div>
             {
-            isLoggedIn === true ?
-                <Spacer position={'relative'} right={0} border={'1px solid white'} display={'flex'} alignItems={'center'} paddingX={2}>
-                    <Button onClick={() => sair()}>Sair</Button>
-                </Spacer>
-                : ""
+                isLoggedIn === true ?
+                    <Spacer position={'relative'} right={0} border={'1px solid white'} display={'flex'} alignItems={'center'} paddingX={2}>
+                        <Button onClick={() => sair()}>Sair</Button>
+                    </Spacer>
+                    : ""
             }
         </Flex>
     )

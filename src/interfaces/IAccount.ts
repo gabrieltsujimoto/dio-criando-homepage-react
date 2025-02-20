@@ -1,7 +1,8 @@
 export interface IAccount {
+    isLoggedIn: string,
     email: string,
     name: string,
     pass: string,
-    balance: number,
+    balance: string | number,
     id: string
 }

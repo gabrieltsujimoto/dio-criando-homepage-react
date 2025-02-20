@@ -1,11 +1,19 @@
+import { IDioBank } from "../interfaces/IDioBank";
 const dioBank = {
-    login: false,
+    loginState: false,
+    email: "",
+    nome: "",
+    balance: ""
 };
 
-export const getAllLocalStorage = () => {
-    return localStorage.getItem('diobank');
+export const getAllLocalStorage = (): string | null => {
+    return localStorage.getItem('userLocalStorage');
 }
 
 export const createLocalStorage = (): void => {
-    localStorage.setItem('diobank', JSON.stringify(dioBank))
+    localStorage.setItem('userLocalStorage', JSON.stringify(dioBank))
+}
+
+export const changeLocalStorage = (dioBank: IDioBank): void => {
+    localStorage.setItem('userLocalStorage', JSON.stringify(dioBank))
 }
