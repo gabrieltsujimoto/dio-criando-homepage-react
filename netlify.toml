@@ -1,0 +1,3 @@
+[build]
+command = "npm install --legacy-peet-deps && npm run build"
+publish = "build"
